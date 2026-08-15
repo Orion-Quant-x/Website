@@ -48,7 +48,7 @@ const MetricsBand = () => {
         <span className="metric-label">Sharpe Ratio</span>
       </div>
       <div className="metric reveal reveal-delay-2">
-        <span className="metric-value" data-text="₹400 Million">₹0</span>
+        <span className="metric-value" data-text="₹250 Million">₹0</span>
         <span className="metric-label">AUM</span>
       </div>
       <div className="metric reveal reveal-delay-3">
