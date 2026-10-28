@@ -56,10 +56,12 @@ const StrategySection = () => {
               <p className="section-body reveal reveal-delay-2">
                 Like a black hole bending spacetime, our algorithms bend the fabric of financial markets, finding signal in noise, extracting value from asymmetry and capturing returns invisible to conventional analysis.
               </p>
-              <a href="#performance" className="btn-ghost reveal reveal-delay-3" onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('performance')?.scrollIntoView({ behavior: 'smooth' });
-              }}>Fact Sheet</a>
+              <a href="/fact-sheet.pdf"
+                 download="Orion-Quant-Fact-Sheet.pdf"
+                 className="btn-ghost reveal reveal-delay-3"
+               >
+                 Fact Sheet
+                </a>
             </div>
             <div className="strategy-right reveal reveal-delay-2">
               <div className="card-3d-container" id="card3d">

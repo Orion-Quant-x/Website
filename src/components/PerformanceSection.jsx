@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-
 const heatmapData = {
   2021: { Jan: -6.9, Feb: 46.1, Mar: 40.1, Apr: -7.8, May: 25.0, Jun: -11.9, Jul: -18.8, Aug: -5.3, Sep: -27.7, Oct: 11.4, Nov: 21.6, Dec: 65.9 },
   2022: { Jan: -28.7, Feb: 33.5, Mar: 6.6, Apr: 27.0, May: 41.8, Jun: 25.8, Jul: 29.2, Aug: -2.1, Sep: 36.0, Oct: 2.0, Nov: 6.2, Dec: -38.0 },
   2023: { Jan: 28.8, Feb: -16.2, Mar: -5.8, Apr: 22.1, May: -301.1, Jun: 236.5, Jul: 435.7, Aug: 4.2, Sep: 20.0, Oct: 3.1, Nov: -3.3, Dec: 43.0 },
-  2024: { Jan: 184.1, Feb: 169.5, Mar: 86.8, Apr: -1.8, May: 89.2, Jun: 204.9, Jul: 43.5, Aug: 67.1, Sep: 15.0, Oct: 147.9, Nov: 114.5, Dec: 52.4 },
-  2025: { Jan: 56.7, Feb: 133.9, Mar: 100.7, Apr: 88.5, May: 174.5, Jun: 121.3, Jul: 75.3, Aug: 76.3, Sep: 72.0, Oct: 9.3, Nov: 18.5, Dec: 86.4 },
-  2026: { Jan: -36.0, Feb: 152.4 }
+  2024: { Jan: 4800.7, Feb: 3976.6, Mar: 6922.4, Apr: -2494.9, May: 5216.6, Jun: 3151.5, Jul: 2407.6, Aug: 6196.0, Sep: 2664.8, Oct: 133.6, Nov: 1500.7, Dec: 2369.7 },
+  2025: { Jan: 3492.8, Feb: 4744.8, Mar: 78.8, Apr: 3152.9, May: -10.0, Jun: 1541.3, Jul: 3892.7, Aug: 1008.2, Sep: 698.7, Oct: 1018.0, Nov: 1399.2, Dec: 805.9 },
+  2026: { Jan: -681.1, Feb: 4271.4, Mar: -2261.1, Apr: 1935.6, May: 1726.9, Jun: 1551.5, Jul: 3794.9, Aug: 3075.7, Sep: 1616.8 }
 };
 
 const monthsList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -61,81 +60,58 @@ const PerformanceSection = () => {
   useEffect(() => {
     const drawChart = () => {
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-      const gridColor = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)';
-      document.querySelectorAll('.chart-svg line').forEach(l => {
-        l.setAttribute('stroke', gridColor);
-        l.setAttribute('stroke-dasharray', '4,4');
-      });
-      document.querySelectorAll('.chart-svg text').forEach(t =>
-        t.setAttribute('fill', isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)')
-      );
+      const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
 
-      // Raw P&L monthly values
-      const rawPL = [
-        // 2021
-        -6.9, 46.1, 40.1, -7.8, 25.0, -11.9, -18.8, -5.3, -27.7, 11.4, 21.6, 65.9,
-        // 2022
-        -28.7, 33.5, 6.6, 27.0, 41.8, 25.8, 29.2, -2.1, 36.0, 2.0, 6.2, -38.0,
-        // 2023
-        28.8, -16.2, -5.8, 22.1, -301.1, 236.5, 435.7, 4.2, 20.0, 3.1, -3.3, 43.0,
-        // 2024
-        184.1, 169.5, 86.8, -1.8, 89.2, 204.9, 43.5, 67.1, 15.0, 147.9, 114.5, 52.4,
-        // 2025
-        56.7, 133.9, 100.7, 88.5, 174.5, 121.3, 75.3, 76.3, 72.0, 9.3, 18.5, 86.4,
-        // 2026
-        -36.0, 152.4
+      document.querySelectorAll('.chart-svg .chart-grid').forEach(line => {
+        line.setAttribute('stroke', gridColor);
+      });
+
+      document.querySelectorAll('.chart-svg .axis-label').forEach(label => {
+        label.setAttribute('fill', isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)');
+      });
+
+      const plotVals = [
+        3, 4, 6, 11, 10, 13.5, 16, 18.5, 23, 25.5, 26, 28.5,
+        31, 35, 38, 38.5, 41, 45.5, 47, 48, 49.5, 51, 52,
+        51.5, 55.5, 54, 56.5, 58.5, 60, 62.5, 66, 69.5, 73.7
       ];
 
-      // Calculate cumulative sum
-      let sum = 0;
-      const cumulative = rawPL.map(val => {
-        sum += val;
-        return sum;
-      });
+      const left = 60;
+      const right = 985;
+      const top = 12;
+      const bottom = 158;
+      const points = plotVals.map((value, index) => [
+        left + (index / (plotVals.length - 1)) * (right - left),
+        bottom - (value / 80) * (bottom - top)
+      ]);
 
-      // We only plot Jan 2024 to Feb 2026
-      // Jan 2024 is index 36 (12 * 3) in rawPL
-      const startIdx = 36;
-      const plotVals = cumulative.slice(startIdx); // 26 values
+      const toPath = pts => pts.map((point, index) =>
+        `${index === 0 ? 'M' : 'L'}${point[0]},${point[1]}`
+      ).join(' ');
+      const linePath = toPath(points);
+      const fillPath = `${linePath} L${points[points.length - 1][0]},${bottom} L${points[0][0]},${bottom} Z`;
 
-      const minVal = Math.min(...plotVals);
-      const maxVal = Math.max(...plotVals);
-      const valRange = maxVal - minVal;
-      const paddedMin = minVal - valRange * 0.05;
-      const paddedMax = maxVal + valRange * 0.05;
+      const line = document.getElementById('oqLine');
+      const fill = document.getElementById('oqFill');
+      const endpoint = document.getElementById('endpointLabel');
 
-      const W_chart = 500, H_chart = 180;
-      const oqPts = [];
-
-      for (let i = 0; i < plotVals.length; i++) {
-        const x = (i / (plotVals.length - 1)) * W_chart;
-        const val = plotVals[i];
-        const y = H_chart - 15 - ((val - paddedMin) / (paddedMax - paddedMin)) * (H_chart - 30);
-        oqPts.push([x, y]);
+      if (line) {
+        line.setAttribute('d', linePath);
+        line.setAttribute('stroke', isDark ? '#10b981' : '#059669');
       }
-
-      const toPath = pts_arr => pts_arr.map((p, i) => (i === 0 ? `M${p[0]},${p[1]}` : `L${p[0]},${p[1]}`)).join(' ');
-      const toFill = pts_arr => toPath(pts_arr) + ` L${pts_arr[pts_arr.length - 1][0]},${H_chart} L0,${H_chart} Z`;
-
-      const oqLine = document.getElementById('oqLine');
-      const oqFill = document.getElementById('oqFill');
-
-      if (oqLine) oqLine.setAttribute('d', toPath(oqPts));
-      if (oqFill) oqFill.setAttribute('d', toFill(oqPts));
-
-      if (!isDark) {
-        if (oqLine) oqLine.setAttribute('stroke', '#059669');
-        if (oqFill) oqFill.setAttribute('fill', 'url(#lineGradLight)');
-      } else {
-        if (oqLine) oqLine.setAttribute('stroke', '#10b981');
-        if (oqFill) oqFill.setAttribute('fill', 'url(#lineGrad)');
+      if (fill) {
+        fill.setAttribute('d', fillPath);
+        fill.setAttribute('fill', isDark ? 'url(#lineGrad)' : 'url(#lineGradLight)');
       }
+      if (endpoint) endpoint.setAttribute('fill', isDark ? '#34d399' : '#047857');
     };
 
     drawChart();
-
     const observer = new MutationObserver(drawChart);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
     return () => observer.disconnect();
   }, []);
 
@@ -150,29 +126,60 @@ const PerformanceSection = () => {
         <div className="reveal reveal-delay-2">
           <div className="perf-chart">
             <div className="perf-chart-label">CUMULATIVE RETURNS / ORION QUANT LLP</div>
-            <svg className="chart-svg" viewBox="0 0 500 200" preserveAspectRatio="none" id="chartSvg">
+            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden' }}>
+            <svg className="chart-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', minWidth: '900px', display: 'block' }} id="chartSvg" role="img" aria-label="Cumulative returns from January 2024 to September 2026, ending at 73.70 percent">
               <defs>
                 <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.30" />
                   <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="lineGradLight" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#059669" stopOpacity="0.25" />
+                  <stop offset="0%" stopColor="#059669" stopOpacity="0.24" />
                   <stop offset="100%" stopColor="#059669" stopOpacity="0" />
                 </linearGradient>
               </defs>
-              <line x1="0" y1="50" x2="500" y2="50" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-              <line x1="0" y1="100" x2="500" y2="100" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-              <line x1="0" y1="150" x2="500" y2="150" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-              <text x="5" y="46" fill="rgba(255,255,255,0.25)" fontSize="8" fontFamily="DM Mono">100%</text>
-              <text x="5" y="96" fill="rgba(255,255,255,0.25)" fontSize="8" fontFamily="DM Mono">50%</text>
-              <text x="5" y="146" fill="rgba(255,255,255,0.25)" fontSize="8" fontFamily="DM Mono">0%</text>
+
+              {[0, 10, 20, 30, 40, 50, 60, 70, 80].map(value => {
+                const y = 158 - (value / 80) * 146;
+                return (
+                  <g key={value}>
+                    <line className="chart-grid" x1="60" y1={y} x2="985" y2={y} stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+                    <text className="axis-label" x="50" y={y + 3} textAnchor="end" fill="rgba(255,255,255,0.55)" fontSize="8" fontFamily="DM Mono, monospace">{value}%</text>
+                  </g>
+                );
+              })}
+
               <path id="oqFill" fill="url(#lineGrad)" opacity="0.6" d="" />
-              <path id="oqLine" fill="none" stroke="#10b981" strokeWidth="2" d="" />
-              <text x="10" y="194" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="DM Mono">2024</text>
-              <text x="240" y="194" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="DM Mono">2025</text>
-              <text x="460" y="194" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="DM Mono">2026</text>
+              <path id="oqLine" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="" />
+
+              {Array.from({ length: 33 }, (_, index) => {
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const month = monthNames[index % 12];
+                const year = 2024 + Math.floor(index / 12);
+                const x = 60 + (index / 32) * 925;
+
+                return (
+                  <g key={index}>
+                    <line x1={x} y1="158" x2={x} y2="164" stroke="rgba(255,255,255,0.16)" strokeWidth="0.7" />
+                    <text
+                      className="axis-label"
+                      x={x}
+                      y="178"
+                      textAnchor="middle"
+                      fill="rgba(255,255,255,0.55)"
+                      fontSize="9"
+                      fontFamily="DM Mono, monospace"
+                    >
+                      <tspan x={x} dy="0">{month}</tspan>
+                      <tspan x={x} dy="12">{String(year).slice(-2)}</tspan>
+                    </text>
+                  </g>
+                );
+              })}
+
+              <text id="endpointLabel" x="985" y="17" textAnchor="end" fill="#34d399" fontSize="11" fontWeight="bold" fontFamily="DM Mono, monospace">73.70%</text>
             </svg>
+            </div>
             <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
               <span style={{ fontFamily: "'DM Mono',monospace", fontSize: '9px', color: '#10b981', letterSpacing: '0.1em' }}>— ORION QUANT LLP</span>
             </div>
@@ -251,9 +258,6 @@ const PerformanceSection = () => {
                 })}
               </tbody>
             </table>
-          </div>
-          <div className="heatmap-actions" style={{ display: 'flex', justifyContent: 'center', marginTop: '40px', marginBottom: '20px' }}>
-            <a href="#" className="btn-ghost" style={{ display: 'inline-block' }}>FACT SHEET</a>
           </div>
         </div>
       </div>

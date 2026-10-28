@@ -40,11 +40,11 @@ const MetricsBand = () => {
   return (
     <div className="metrics-band">
       <div className="metric reveal">
-        <span className="metric-value" data-count="32.4">0</span>
+        <span className="metric-value" data-count="30.0">0</span>
         <span className="metric-label">Annualized Return %</span>
       </div>
       <div className="metric reveal reveal-delay-1">
-        <span className="metric-value" data-count="6.9">0</span>
+        <span className="metric-value" data-count="3.61">0</span>
         <span className="metric-label">Sharpe Ratio</span>
       </div>
       <div className="metric reveal reveal-delay-2">
@@ -52,7 +52,7 @@ const MetricsBand = () => {
         <span className="metric-label">AUM</span>
       </div>
       <div className="metric reveal reveal-delay-3">
-        <span className="metric-value" data-count="2">0</span>
+        <span className="metric-value" data-count="3">0</span>
         <span className="metric-label">Years of Alpha</span>
       </div>
     </div>
