@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
 const heatmapData = {
-  2021: { Jan: -6.9, Feb: 46.1, Mar: 40.1, Apr: -7.8, May: 25.0, Jun: -11.9, Jul: -18.8, Aug: -5.3, Sep: -27.7, Oct: 11.4, Nov: 21.6, Dec: 65.9 },
-  2022: { Jan: -28.7, Feb: 33.5, Mar: 6.6, Apr: 27.0, May: 41.8, Jun: 25.8, Jul: 29.2, Aug: -2.1, Sep: 36.0, Oct: 2.0, Nov: 6.2, Dec: -38.0 },
-  2023: { Jan: 28.8, Feb: -16.2, Mar: -5.8, Apr: 22.1, May: -301.1, Jun: 236.5, Jul: 435.7, Aug: 4.2, Sep: 20.0, Oct: 3.1, Nov: -3.3, Dec: 43.0 },
   2024: { Jan: 4800.7, Feb: 3976.6, Mar: 6922.4, Apr: -2494.9, May: 5216.6, Jun: 3151.5, Jul: 2407.6, Aug: 6196.0, Sep: 2664.8, Oct: 133.6, Nov: 1500.7, Dec: 2369.7 },
   2025: { Jan: 3492.8, Feb: 4744.8, Mar: 78.8, Apr: 3152.9, May: -10.0, Jun: 1541.3, Jul: 3892.7, Aug: 1008.2, Sep: 698.7, Oct: 1018.0, Nov: 1399.2, Dec: 805.9 },
   2026: { Jan: -681.1, Feb: 4271.4, Mar: -2261.1, Apr: 1935.6, May: 1726.9, Jun: 1551.5, Jul: 3794.9, Aug: 3075.7, Sep: 1616.8 }
@@ -78,8 +75,8 @@ const PerformanceSection = () => {
 
       const left = 60;
       const right = 985;
-      const top = 12;
-      const bottom = 158;
+      const top = 20;
+      const bottom = 340;
       const points = plotVals.map((value, index) => [
         left + (index / (plotVals.length - 1)) * (right - left),
         bottom - (value / 80) * (bottom - top)
@@ -124,10 +121,10 @@ const PerformanceSection = () => {
           <p className="section-body reveal reveal-delay-2">Consistent outperformance from 2021 and beyond. Our risk-adjusted returns place us in the top decile of global quantitative managers.</p>
         </div>
         <div className="reveal reveal-delay-2">
-          <div className="perf-chart">
+          <div className="perf-chart" style={{ minHeight: "460px", height: "auto", overflow: "visible" }}>
             <div className="perf-chart-label">CUMULATIVE RETURNS / ORION QUANT LLP</div>
-            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden' }}>
-            <svg className="chart-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', minWidth: '900px', display: 'block' }} id="chartSvg" role="img" aria-label="Cumulative returns from January 2024 to September 2026, ending at 73.70 percent">
+            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'visible' }}>
+            <svg className="chart-svg" viewBox="0 0 1000 400" preserveAspectRatio="none" style={{ width: '100%', minWidth: '900px', height: '400px', display: 'block' }} id="chartSvg" role="img" aria-label="Cumulative returns from January 2024 to September 2026, ending at 73.70 percent">
               <defs>
                 <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#10b981" stopOpacity="0.30" />
@@ -140,7 +137,7 @@ const PerformanceSection = () => {
               </defs>
 
               {[0, 10, 20, 30, 40, 50, 60, 70, 80].map(value => {
-                const y = 158 - (value / 80) * 146;
+                const y = 340 - (value / 80) * 320;
                 return (
                   <g key={value}>
                     <line className="chart-grid" x1="60" y1={y} x2="985" y2={y} stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
@@ -160,11 +157,11 @@ const PerformanceSection = () => {
 
                 return (
                   <g key={index}>
-                    <line x1={x} y1="158" x2={x} y2="164" stroke="rgba(255,255,255,0.16)" strokeWidth="0.7" />
+                    <line x1={x} y1="340" x2={x} y2="346" stroke="rgba(255,255,255,0.16)" strokeWidth="0.7" />
                     <text
                       className="axis-label"
                       x={x}
-                      y="178"
+                      y="360"
                       textAnchor="middle"
                       fill="rgba(255,255,255,0.55)"
                       fontSize="9"
@@ -177,7 +174,7 @@ const PerformanceSection = () => {
                 );
               })}
 
-              <text id="endpointLabel" x="985" y="17" textAnchor="end" fill="#34d399" fontSize="11" fontWeight="bold" fontFamily="DM Mono, monospace">73.70%</text>
+              <text id="endpointLabel" x="985" y="25" textAnchor="end" fill="#34d399" fontSize="11" fontWeight="bold" fontFamily="DM Mono, monospace">73.70%</text>
             </svg>
             </div>
             <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
@@ -193,7 +190,7 @@ const PerformanceSection = () => {
           </div>
           <div className="metric">
             <span className="metric-value metric-val">6.9</span>
-            <span className="metric-label metric-key">Sharpe Ratio</span>
+            <span className="metric-label metric-key">Monthly Sharpe</span>
           </div>
           <div className="metric">
             <span className="metric-value metric-val">89%</span>
