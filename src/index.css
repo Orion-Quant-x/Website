@@ -578,16 +578,24 @@ section {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding: 16px 40px;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
+    /* Keep the Fact Sheet button visible without hover. */
+    border: 1px solid var(--accent);
+    color: var(--text);
+    background: rgba(200, 169, 110, 0.04);
+    opacity: 1;
+    visibility: visible;
     text-decoration: none;
     border-radius: 2px;
-    transition: border-color 0.3s, color 0.3s;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.btn-ghost:hover {
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
     border-color: var(--accent);
     color: var(--text);
+    background: rgba(200, 169, 110, 0.10);
+    box-shadow: 0 0 20px rgba(200, 169, 110, 0.12);
+    transform: translateY(-2px);
 }
 
 .hero-scroll {
@@ -1689,6 +1697,14 @@ footer {
         width: 100%;
     }
 
+    .hero-actions .btn-ghost {
+        border: 1px solid var(--accent);
+        color: var(--text);
+        background: rgba(200, 169, 110, 0.04);
+        opacity: 1;
+        visibility: visible;
+    }
+
     /* METRICS */
     .metrics-band {
         grid-template-columns: repeat(2, 1fr);
@@ -1892,4 +1908,152 @@ footer {
         font-size: 11px;
         padding: 12px 24px;
     }
+}
+
+/* =====================================================
+   PERFORMANCE SECTION: RESPONSIVE CHART FIX
+   Added without changing chart data or visual theme.
+===================================================== */
+.perf-section,
+.perf-inner,
+.perf-inner > div {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.perf-inner {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+}
+
+.perf-chart {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.chart-responsive-wrapper {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: clamp(220px, 28vw, 360px);
+    overflow: hidden;
+}
+
+.chart-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 900px) {
+    .perf-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+    }
+
+    .perf-inner > div {
+        width: 100%;
+    }
+
+    .perf-chart {
+        padding: 24px;
+    }
+
+    .chart-responsive-wrapper {
+        height: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .perf-section {
+        padding: 52px 16px;
+        overflow: hidden;
+    }
+
+    .perf-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .perf-chart {
+        padding: 16px 10px;
+    }
+
+    .perf-chart-label {
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+    }
+
+    .chart-responsive-wrapper {
+        height: 245px;
+    }
+
+    .section-title {
+        font-size: clamp(36px, 10vw, 46px);
+        line-height: 1.05;
+    }
+
+    .section-body {
+        font-size: 15px;
+        line-height: 1.7;
+        max-width: 100%;
+    }
+
+    .metrics-band {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .perf-heatmap-container {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .heatmap-scroll-wrapper {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 360px) {
+    .perf-section {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .perf-chart {
+        padding: 14px 8px;
+    }
+
+    .chart-responsive-wrapper {
+        height: 220px;
+    }
+}
+
+
+/* FINAL FIX: Keep the Fact Sheet button visible without hover on desktop and mobile. */
+.hero-actions .btn-ghost,
+.hero .btn-ghost {
+    border: 1px solid var(--accent, #c8a96e) !important;
+    color: var(--text, #d8d0c2) !important;
+    background: rgba(200, 169, 110, 0.04) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    box-shadow: none;
+}
+
+.hero-actions .btn-ghost:hover,
+.hero-actions .btn-ghost:focus-visible,
+.hero .btn-ghost:hover,
+.hero .btn-ghost:focus-visible {
+    border-color: var(--accent, #c8a96e) !important;
+    color: var(--text, #d8d0c2) !important;
+    background: rgba(200, 169, 110, 0.10) !important;
+    box-shadow: 0 0 20px rgba(200, 169, 110, 0.12);
 }

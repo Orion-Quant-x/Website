@@ -86,7 +86,7 @@ const StrategySection = () => {
       <section className="strategies-section" id="strategies">
         <div className="strategies-header">
           <span className="section-tag reveal" style={{ display: 'block', textAlign: 'center', fontFamily: "'DM Mono',monospace", fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '20px' }}>02 / Strategy Suite</span>
-          <h2 className="section-title reveal reveal-delay-1">Four vectors.<br />One gravitational force.</h2>
+          <h2 className="section-title reveal reveal-delay-1">Four Vectors.<br />One Gravitational Force.</h2>
         </div>
         <div className="strategies-list">
           <div className="strategy-item reveal">
@@ -102,7 +102,7 @@ const StrategySection = () => {
           <div className="strategy-item reveal reveal-delay-2">
             <span className="strategy-num">003</span>
             <h3>Alternative Data</h3>
-            <p>Satellite imagery, tick-historical and high-frequency WebSockets real-time market depth data at 4nm/sec frequency, sentiment NLP and supply chain analytics feed real-time signals into our ensemble alpha engine.</p>
+            <p>Tick-historical and high-frequency WebSockets real-time market depth data at 4nm/sec frequency, sentiment NLP and supply chain analytics feed real-time signals into our ensemble alpha engine.</p>
           </div>
           <div className="strategy-item reveal reveal-delay-3">
             <span className="strategy-num">004</span>

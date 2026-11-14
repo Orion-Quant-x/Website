@@ -118,13 +118,13 @@ const PerformanceSection = () => {
         <div>
           <span className="section-tag reveal" style={{ fontFamily: "'DM Mono',monospace", fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '20px', display: 'block' }}>03 / Performance</span>
           <h2 className="section-title reveal reveal-delay-1">Numbers<br />that speak<br />across cycles</h2>
-          <p className="section-body reveal reveal-delay-2">Consistent outperformance from 2021 and beyond. Our risk-adjusted returns place us in the top decile of global quantitative managers.</p>
+          <p className="section-body reveal reveal-delay-2">Consistent outperformance from 2024 and beyond. Our risk-adjusted returns place us in the top decile of global quantitative managers.</p>
         </div>
         <div className="reveal reveal-delay-2">
-          <div className="perf-chart" style={{ minHeight: "460px", height: "auto", overflow: "visible" }}>
+          <div className="perf-chart">
             <div className="perf-chart-label">CUMULATIVE RETURNS / ORION QUANT LLP</div>
-            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'visible' }}>
-            <svg className="chart-svg" viewBox="0 0 1000 400" preserveAspectRatio="none" style={{ width: '100%', minWidth: '900px', height: '400px', display: 'block' }} id="chartSvg" role="img" aria-label="Cumulative returns from January 2024 to September 2026, ending at 73.70 percent">
+            <div className="chart-responsive-wrapper">
+            <svg className="chart-svg" viewBox="0 0 1000 400" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }} id="chartSvg" role="img" aria-label="Cumulative returns from January 2024 to September 2026, ending at 73.70 percent">
               <defs>
                 <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#10b981" stopOpacity="0.30" />
