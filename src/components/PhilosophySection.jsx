@@ -4,7 +4,7 @@ const PhilosophySection = () => {
   return (
     <section className="philosophy-section" id="philosophy">
       <p className="philosophy-quote reveal">
-        <span>"</span>The market is not a random walk;<br />
+        <span>"</span>The market is not a random walk,<br />
         it is a <span>curved spacetime</span> where information<br />
         warps probability into opportunity.<span>"</span>
       </p>
